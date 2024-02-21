@@ -118,6 +118,7 @@ describe("Token Swap Testing", function () {
       expect(balOfNairaAfterSwap).to.be.lessThan(balOfNairaBeforeSwap);
     });
   });
+
   describe("Naira token to USD token Swap Check", function () {
     it("Should check that the swapper is address 0", async function () {
       const { owner } = await loadFixture(deployContracts);
