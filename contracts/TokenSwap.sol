@@ -12,7 +12,7 @@ contract TokenSwap {
     uint public constant EXCHANGE_RATE = 2;
 
     event TokenSwapped(
-        address user,
+        address indexed user,
         uint amount,
         uint amountOut,
         bool isSwapFromaTob
@@ -25,6 +25,13 @@ contract TokenSwap {
     }
 
     function swapFromUSDToNaira(uint amountInUSD) external {
+        require(amountInUSD > 0, "Zero amount not allowed");
+
+        require(
+            usdToken.allowance(msg.sender, address(this)) >= amountInUSD,
+            "Token allowance is too low"
+        );
+
         uint amountOutNaira = (amountInUSD * EXCHANGE_RATE);
 
         usdToken.transferFrom(msg.sender, address(this), amountInUSD);
@@ -34,6 +41,13 @@ contract TokenSwap {
     }
 
     function swapFromNairaToUSD(uint amountInNaira) external {
+        require(amountInNaira > 0, "Zero amount not allowed");
+
+        require(
+            nairaToken.allowance(msg.sender, address(this)) >= amountInNaira,
+            "Token allowance is too low"
+        );
+
         uint amountOutUSD = (amountInNaira / EXCHANGE_RATE);
 
         nairaToken.transferFrom(msg.sender, address(this), amountInNaira);
