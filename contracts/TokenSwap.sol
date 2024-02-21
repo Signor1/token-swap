@@ -25,6 +25,8 @@ contract TokenSwap {
     }
 
     function swapFromUSDToNaira(uint amountInUSD) external {
+        require(msg.sender != address(0), "Zero address not allowed");
+
         require(amountInUSD > 0, "Zero amount not allowed");
 
         require(
@@ -41,6 +43,8 @@ contract TokenSwap {
     }
 
     function swapFromNairaToUSD(uint amountInNaira) external {
+        require(msg.sender != address(0), "Zero address not allowed");
+
         require(amountInNaira > 0, "Zero amount not allowed");
 
         require(
@@ -53,6 +57,6 @@ contract TokenSwap {
         nairaToken.transferFrom(msg.sender, address(this), amountInNaira);
         usdToken.transfer(msg.sender, amountOutUSD);
 
-        emit TokenSwapped(msg.sender, amountInNaira, amountOutUSD, false);
+        emit TokenSwapped(msg.sender, amountInNaira, amountOutUSD, true);
     }
 }
